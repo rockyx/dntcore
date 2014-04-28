@@ -1,6 +1,8 @@
 #include "xArray.h"
+#include <assert.h>
 #include "xAtomic.h"
 #include "xMessage.h"
+#include "xBytes.h"
 
 #define MIN_ARRAY_SIZE 16
 
@@ -303,13 +305,13 @@ xArray* x_array_remove_range(xArray *farray, xUInt index, xUInt length)
 	return farray;
 }
 
-void x_array_sort(xArray *farray, XCompareFunc compare_func)
+void x_array_sort(xArray *farray, xCompareFunc compare_func)
 {
 	xRealArray *array = (xRealArray*)farray;
 
 	x_return_if_fail(array);
 
-	qsort(array->data, array->len, array->elt_size, (XCompareFunc)compare_func);
+	qsort(array->data, array->len, array->elt_size, (xCompareFunc)compare_func);
 }
 
 /*
@@ -665,7 +667,7 @@ void x_ptr_array_insert(xPtrArray *array, xInt index, xPointer data)
 	rarray->pdata[index] = data;
 }
 
-void x_ptr_array_sort(xPtrArray *array, XCompareFunc compare_func)
+void x_ptr_array_sort(xPtrArray *array, xCompareFunc compare_func)
 {
 	x_return_if_fail(array != NULL);
 
@@ -683,3 +685,106 @@ void x_ptr_array_foreach(xPtrArray *array, xFunc func, xPointer user_data)
 	for (i = 0; i < array->len; i++)
 		(*func)(array->pdata[i], user_data);
 }
+
+xByteArray* x_byte_array_new(void)
+{
+	return (xByteArray*)x_array_sized_new(FALSE, FALSE, 1, 0);
+}
+
+xByteArray* x_byte_array_new_take(xUInt8* data, xSize len)
+{
+	xByteArray *array;
+	xRealArray *real;
+
+	array = x_byte_array_new();
+	real = (xRealArray*)array;
+
+	assert(real->data == NULL);
+	assert(real->len == 0);
+
+	real->data = data;
+	real->len = len;
+
+	return array;
+}
+
+xByteArray* x_byte_array_sized_new(xUInt reserved_size)
+{
+	return (xByteArray*)x_array_sized_new(FALSE, FALSE, 1, reserved_size);
+}
+
+xUInt8* x_byte_array_free(xByteArray *array, xBoolean free_segment)
+{
+	return (xUInt8*)x_array_free((xArray*)array, free_segment);
+}
+
+xBytes* x_byte_array_free_to_bytes(xByteArray *array)
+{
+	xSize length;
+
+	x_return_val_if_fail(array != NULL, NULL);
+
+	length = array->len;
+	return x_bytes_new_take(x_byte_array_free(array, FALSE), length);
+}
+
+xByteArray* x_byte_array_ref(xByteArray *array)
+{
+	return (xByteArray*)x_array_ref((xArray*)array);
+}
+
+void x_byte_array_unref(xByteArray *array)
+{
+	x_array_unref((xArray*)array);
+}
+
+xByteArray* x_byte_array_append(xByteArray *array, const xUInt8 *data, xUInt len)
+{
+	x_array_append_vals((xArray*)array, (xUInt8*)data, len);
+
+	return array;
+}
+
+xByteArray* x_byte_array_prepend(xByteArray *array, const xUInt8 *data, xUInt len)
+{
+	x_array_prepend_vals((xArray*)array, (xUInt8*)data, len);
+
+	return array;
+}
+
+xByteArray* x_byte_array_set_size(xByteArray *array, xUInt length)
+{
+	x_array_set_size((xArray*)array, length);
+	
+	return array;
+}
+
+xByteArray *x_byte_array_remove_index(xByteArray *array, xUInt index)
+{
+	x_array_remove_index((xArray*)array, index);
+
+	return array;
+}
+
+xByteArray *x_byte_array_remove_index_fast(xByteArray *array, xUInt index)
+{
+	x_array_remove_index_fast((xArray*)array, index);
+
+	return array;
+}
+
+xByteArray* x_byte_array_remove_range(xByteArray *array, xUInt index, xUInt length)
+{
+	x_return_val_if_fail(array, NULL);
+	x_return_val_if_fail(index < array->len, NULL);
+	x_return_val_if_fail(index + length <= array->len, NULL);
+
+	return (xByteArray*)x_array_remove_range((xArray*)array, index, length);
+}
+
+void x_byte_array_sort(xByteArray *array, xCompareFunc compare_func)
+{
+	x_array_sort((xArray*)array, compare_func);
+}
+
+// void x_byte_array_sort_with_data

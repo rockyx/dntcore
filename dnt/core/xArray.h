@@ -9,8 +9,10 @@
 
 X_CORE_BEGIN_DECLS
 
+typedef struct _xBytes xBytes;
 typedef struct _xArray xArray;
 typedef struct _xPtrArray xPtrArray;
+typedef struct _xByteArray xByteArray;
 
 struct _xArray
 {
@@ -21,6 +23,12 @@ struct _xArray
 struct _xPtrArray
 {
 	xPointer *pdata;
+	xUInt len;
+};
+
+struct _xByteArray
+{
+	xUInt8 *data;
 	xUInt len;
 };
 
@@ -42,7 +50,7 @@ xArray* x_array_set_size(xArray *array, xUInt length);
 xArray* x_array_remove_index(xArray *array, xUInt index);
 xArray* x_array_remove_index_fast(xArray *array, xUInt index);
 xArray* x_array_remove_range(xArray *array, xUInt index, xUInt length);
-void x_array_sort(xArray *array, XCompareFunc compare_func);
+void x_array_sort(xArray *array, xCompareFunc compare_func);
 /*void x_array_sort_with_data(xArray *array, xCompareDataFunc compare_func, xPointer user_data); */
 void x_array_set_clear_func(xArray *array, xDestroyNotify clear_func);
 
@@ -63,9 +71,25 @@ xBoolean x_ptr_array_remove_fast(xPtrArray *array, xPointer data);
 xPtrArray* x_ptr_array_remove_range(xPtrArray *array, xUInt index, xUInt length);
 void x_ptr_array_add(xPtrArray *array, xPointer data);
 void x_ptr_array_insert(xPtrArray *array, xInt index, xPointer data);
-void x_ptr_array_sort(xPtrArray *array, XCompareFunc compare_func);
+void x_ptr_array_sort(xPtrArray *array, xCompareFunc compare_func);
 // void x_ptr_array_sort_with_data(xPtrArray *array, xCompareFunc compare_func, xPointer user_data);
 void x_ptr_array_foreach(xPtrArray *array, xFunc func, xPointer user_data);
+
+xByteArray* x_byte_array_new(void);
+xByteArray* x_byte_array_new_take(xUInt8 *data, xSize len);
+xByteArray* x_byte_array_sized_new(xUInt reserved_size);
+xUInt8* x_byte_array_free(xByteArray *array, xBoolean free_segment);
+xBytes* x_byte_array_free_to_bytes (xByteArray *array);
+xByteArray* x_byte_array_ref(xByteArray *array);
+void x_byte_array_unref(xByteArray *array);
+xByteArray* x_byte_array_append(xByteArray *array, const xUInt8 *data, xUInt len);
+xByteArray* x_byte_array_prepend(xByteArray *array, const xUInt8 *data, xUInt len);
+xByteArray* x_byte_array_set_size(xByteArray *array, xUInt length);
+xByteArray* x_byte_array_remove_index(xByteArray *array, xUInt index);
+xByteArray* x_byte_array_remove_index_fast(xByteArray *array, xUInt index);
+xByteArray* x_byte_array_remove_range(xByteArray *array, xUInt index, xUInt length);
+void x_byte_array_sort(xByteArray *array, xCompareFunc compare_func);
+// void x_byte_array_sort_with_data(xByteArray *array, xCompareDataFunc compare_func, xPointer user_data);
 
 X_CORE_END_DECLS
 

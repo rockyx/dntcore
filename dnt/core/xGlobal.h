@@ -120,7 +120,7 @@ typedef unsigned int xSize;
 #endif
 
 typedef void(*xDestroyNotify)(xPointer data);
-typedef xInt(*XCompareFunc)(xConstPointer a, xConstPointer b);
+typedef xInt(*xCompareFunc)(xConstPointer a, xConstPointer b);
 typedef void(xFunc)(xPointer data, xPointer user_data);
 
 
