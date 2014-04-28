@@ -177,6 +177,16 @@ void x_timer_add(xTimer *time1, xTimer *time2)
 	}
 }
 
+void x_timer_add_milliseconds(xTimer *time, xInt64 milliseconds)
+{
+	x_timer_add_microseconds(time, milliseconds * 1000);
+}
+
+void x_timer_dec_milliseconds(xTimer *time, xInt64 milliseconds)
+{
+	x_timer_dec_microseconds(time, milliseconds * 1000);
+}
+
 int x_timer_compare(xTimer *time1, xTimer *time2)
 {
 	x_return_val_if_fail(time1, -1);

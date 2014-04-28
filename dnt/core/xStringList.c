@@ -11,7 +11,7 @@ xStringList * x_string_list_new(void)
 	xStringList *ret = (xStringList*)malloc(sizeof(xStringList));
 	ret->list = x_ptr_array_new();
 	ret->count = ret->list->len;
-	x_ptr_array_set_free_func(ret->list, free_string);
+	x_ptr_array_set_free_func(ret->list, (xDestroyNotify)free_string);
 	return ret;
 }
 
@@ -20,7 +20,7 @@ xStringList * x_string_list_sized_new(xSize reserved_size)
 	xStringList *ret = (xStringList*)malloc(sizeof(xStringList));
 	ret->list = x_ptr_array_sized_new(reserved_size);
 	ret->count = ret->list->len;
-	x_ptr_array_set_free_func(ret->list, free_string);
+	x_ptr_array_set_free_func(ret->list, (xDestroyNotify)free_string);
 	return ret;
 }
 

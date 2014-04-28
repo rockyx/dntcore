@@ -27,6 +27,7 @@ void x_timer_usleep(xInt64 microseconds);
 void x_timer_sleep(xTimer *time);
 void x_timer_add(xTimer *time1, xTimer *time2);
 void x_timer_add_microseconds(xTimer *time, xInt64 microseconds);
+void x_timer_add_milliseconds(xTimer *time, xInt64 millliseconds);
 int x_timer_compare(xTimer *time1, xTimer *time2);
 xBoolean x_timer_is_zero(xTimer *time);
 xInt64 x_timer_to_microseconds(xTimer *time);

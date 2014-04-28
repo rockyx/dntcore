@@ -12,6 +12,7 @@
 #include <memory.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdarg.h>
 #include <dnt/core/xSystemDetection.h>
 
 #ifdef DNTCORE_BUILD
@@ -45,8 +46,8 @@
 	_x_boolean_var_; \
 })
 
-#define X_LIKELY(expr) (__builtin_expect (_G_BOOLEAN_EXPR(expr), 1))
-#define X_UNLIKELY(expr) (__builtin_expect (_G_BOOLEAN_EXPR(expr), 0))
+#define X_LIKELY(expr) (__builtin_expect (_X_BOOLEAN_EXPR(expr), 1))
+#define X_UNLIKELY(expr) (__builtin_expect (_X_BOOLEAN_EXPR(expr), 0))
 
 #else
 

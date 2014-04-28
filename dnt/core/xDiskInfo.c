@@ -3,6 +3,8 @@
 #include "xMessage.h"
 #include "xString.h"
 
+#ifdef X_OS_WIN
+
 #pragma warning(disable:4996)
 /* Required to ensure correct PhysicalDrive IOCTL structure setup */
 #pragma pack(1)
@@ -787,3 +789,41 @@ void x_disk_info_unload(void)
 	x_ptr_array_free(list, TRUE);
 	list = NULL;
 }
+
+#else
+
+xSize x_disk_info_load(void)
+{
+	return 0;
+}
+
+void x_disk_info_unload(void)
+{
+}
+
+xInt64 x_disk_info_get_drive_size(xSize drive)
+{
+	return 0;
+}
+
+xString* x_disk_info_get_drive_type(xSize drive)
+{
+	return NULL;
+}
+
+xString* x_disk_info_get_revision_number(xSize drive)
+{
+	return NULL;
+}
+
+xString* x_disk_info_get_serial_number(xSize drive)
+{
+	return NULL;
+}
+
+xString* x_disk_info_get_model_number(xSize drive)
+{
+	return NULL;
+}
+
+#endif

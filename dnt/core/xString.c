@@ -1,5 +1,4 @@
 #include "xString.h"
-#include <stdarg.h>
 #include "xMessage.h"
 
 

@@ -17,6 +17,19 @@
 #include <sys/time.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
+
+struct _xSerialPortPlatform
+{
+	int fd;
+	xInt64 read_timeout;
+	xInt64 write_timeout;
+	xUInt8 databits;
+	xInt32 baudrate;
+	xSerialParity parity;
+	xSerialStopbits stopbits;
+	xSerialHandshake handshake;
+};
+
 #elif defined(X_OS_WIN)
 #include <Windows.h>
 #include <objbase.h>
@@ -25,22 +38,6 @@
 #include <Dbt.h>
 
 X_CORE_BEGIN_DECLS
-
-// ---------- default values -------------*
-#define DEFAULT_DATABITS 8
-#define DEFAULT_PARITY = X_SERIAL_PARITY_NONE
-#define DEFAULT_STPOBITS X_SERIAL_STOPBITS_ONE
-#define DEFAULT_HANDSHAKE X_SERIAL_HANDSHAKE_NONE
-#define DEFAULT_BUFFER_SIZE (1024)
-#define DEFAULT_BAUDRATE (9600)
-#define DEFAULT_DTR_ENABLE FALSE
-#define DEFAULT_RTS_ENABLE FALSE
-#define DEFAULT_READ_TIMEOUT X_SERIALPORT_INFINITE_TIMEOUT
-#define DEFAULT_WRITE_TIMEOUT X_SERIALPORT_INFINITE_TIMEOUT
-#define DEFAULT_READ_BUFFER_SIZE (4096)
-#define DEFAULT_WRITE_BUFFER_SIZE (2048)
-#define MAX_DATABITS (8)
-#define MIN_DATABITS (5)
 
 struct _xSerialPortPlatform
 {
